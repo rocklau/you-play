@@ -13,7 +13,7 @@ case $1 in
         player=$4
         if [ "$player" = "" ]  
         then  
-        player=iina     
+        player=mpv     
         fi       
         echo -e "Search Keyword to Play \n bin/playvideo.sh play $2 $3  $5" 
 
@@ -49,16 +49,16 @@ case $1 in
 
 
     link-play) 
-        echo  -e "Link to Play \n you-get --format=TD_H265 $(url) -p iina"
+        echo  -e "Link to Play \n you-get --format=TD_H265 $(url) -p mpv"
 
-        you-get --format=TD_H265 $2 -p iina
+        you-get --format=TD_H265 $2 -p mpv
         ;;
 
     link-rtmp)
         echo -e "推流Link push to RTMP \n video.sh link-rtmp $(url)" 
 
         vurl=`you-get $2 --json | jq '.streams.HD.m3u8_url'`
-        ffmpeg -re -analyzeduration 8000 -probesize 200000  -i ${vurl//\"/} -bsf:a aac_adtstoasc -c copy -f flv rtmp://localhost:1935/live/movie
+        ffmpeg -re -analyzeduration 8000 -probesize 200000  -i ${vurl//\"/} -bsf:a aac_adtstoasc -c copy -f flv rtmp://$3:1935/live/movie
         ;;
 
     help)
@@ -77,7 +77,7 @@ case $1 in
         brew install jq
         brew install ffmpeg
         brew install you-get
-        brew cask install iina        
+        brew cask install mpv        
         echo -e "测试播放"
         ./vide.sh  play 学园奶爸 3 --format=TD_H265
         ;;
